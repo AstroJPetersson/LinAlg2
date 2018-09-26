@@ -15,8 +15,6 @@ class TwoVector:
 		return theta
 		
 	def Galilei(self, relativevelocity): #Relativevelocity is the velocity of S' along the x-axis
-		Svelocity = [self.x, self.y] #velocity in the S system. Denoted v_0 in exersice 1.1
-		transformationmatrix = np.array([[1,0],[-relativevelocity, 1]]) #the transformation matrix gamma
-		V = np.array([1, Svelocity]) #the untransforemed vector
-		vprim=scipy.matmul(transformationmatrix, V)
-		return vprim
+		vxprim = matmul(np.array([-relativevelocity, 1]), np.array([1,self.x])) #vprim calculation on x-axis
+		vyprim = matmul(np.array([0, 1]), np.array([1,self.y])) #vprim calculation on y-axis
+		return np.array([vxprim,vyprim]) #return of vprim vector
