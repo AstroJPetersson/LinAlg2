@@ -55,30 +55,14 @@ class VelocityVector:
 		self.vz = vz
 
 	def Transform(self, velocity):
+		gamma = 1/sqrt(1 - velocity**2) 
 		#Using the formula for velocity addition we derived in exercise 2.12
 		vxprim = (self.vx + velocity)/(1 + self.vx * velocity)
-		return VelocityVector(vxprim, self.vy, self.vz)
+		vyprim = (gamma**(-1)*self.vy)/(1-velocity*self.vx)
+		vzprim = (gamma**(-1)*self.vz)/(1-velocity*self.vx)
+		return VelocityVector(vxprim, vyprim, vzprim)
 
-#%%
-#reusing the framework from 1.3
 
-def vector(deg): #This function creates an unitvector with "deg" degrease angle to the x-axis
-	deg = pi/180 *deg
-	return FourVector(0, np.cos(deg),np.sin(deg), 0)
-
-deglist = [90,80,70]
-
-for a in range(3):
-	vtransform = []
-	for shipspeed in linspace(10e-4,1,100):		
-		aprim = vector(deglist[a]).Transform(shipspeed)
-		phi = np.arccos(aprim.Minkowski(FourVector(0,1,0,0))/sqrt(aprim.x2**2 + aprim.x3**2 + aprim.x4**2))
-		vtransform.append(phi)
-		
-	plt.plot(linspace(10e-4,1,100), vtransform) #ploting the angles with respect to v
-	plt.legend(deglist)
-	plt.xlabel('speed (c)')	
-	plt.ylabel('angle (radians)')
 	
 #%%
 #analytic 3.3
